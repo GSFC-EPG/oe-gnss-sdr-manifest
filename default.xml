@@ -8,28 +8,29 @@
 	<remote name="qt5"
 		fetch="git://github.com/meta-qt5" />
 
-	<remote name="qt4"
-		fetch="git://git.yoctoproject.org/meta-qt4" />
-
 	<remote name="gnss-sdr"
 		fetch="git://github.com/carlesfernandez" />
 
+	<remote name="adi_hdl"
+		fetch="git://github.com/analogdevicesinc" />
+
+	<remote name="qt4"
+		fetch="git://git.yoctoproject.org" />
+
 	<remote name="linux"
-		fetch="git://github.com/analogdevicesinc/linux" />
+		fetch="git://github.com/analogdevicesinc" />
 
 	<remote name="meta-adi"
-		fetch="git://github.com/analogdevicesinc/meta-adi" />
-
-	<remote name="adi_hdl"
-		fetch="git://github.com/analogdevicesinc/hdl" />
+		fetch="git://github.com/analogdevicesinc" />
 
 
-	<project name="meta-qt4" remote="qt4" path="meta-qt4" revision="e290738759ef3f39c9e079eaa9b606a62107e5ba"  />
-	<project name="adi_hdl" remote="adi_hdl" path="adi_hdl" revision="9e94990b90d3aedb28aa507fcfc98725c6e0c82d"  />
-	<project name="meta-adi" remote="meta-adi" path="meta-adi" revision="035aa65e89c62efd6e26175c3f00c67b95fd863d"  />
-	<project name="adi_linux" remote="linux" path="adi_linux" revision="4fea7c58ad92283acb90f182821b51d72b6afefa"  />
+
 	<project name="meta-qt5" remote="qt5" path="meta-qt5" revision="cfe02f26de53e5c20e6f9555059cbaaf5ab9b22f"  />
 	<project name="meta-sdr" remote="balister" path="meta-sdr" revision="7ee0473a50301ac95b8c418dde8e0bbaecb8b9e5" />
 	<project name="meta-gnss-sdr" remote="gnss-sdr" path="meta-gnss-sdr" revision="rocko-petalinux2018.3" />
+	<project name="hdl" remote="adi_hdl" path="hdl" revision="9e94990b90d3aedb28aa507fcfc98725c6e0c82d"  />
+	<project name="meta-qt4" remote="qt4" path="meta-qt4" revision="e290738759ef3f39c9e079eaa9b606a62107e5ba"  />
+	<project name="meta-adi" remote="meta-adi" path="meta-adi" revision="035aa65e89c62efd6e26175c3f00c67b95fd863d"  />
+	<project name="linux" remote="linux" path="linux" revision="4fea7c58ad92283acb90f182821b51d72b6afefa"  />
 
 </manifest>
