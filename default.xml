@@ -1,50 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <manifest>
-	<remote name="openembedded"
-		fetch="git://github.com/openembedded" />
-
-	<remote name="Xilinx"
-		fetch="git://github.com/Xilinx" />
 
 	<remote name="balister"
 		fetch="git://github.com/balister" />
 
-	<remote name="ettus"
-		fetch="git://github.com/EttusResearch" />
-
-	<remote name="akuster"
-		fetch="git://github.com/akuster" />
-
-	<remote name="sbabic"
-		fetch="git://github.com/sbabic" />
-
-	<remote name="yocto"
-		fetch="git://git.yoctoproject.org/" />
-
-	<remote name="L4B-Software"
-		fetch="git://github.com/L4B-Software" />
-
 	<remote name="qt5"
 		fetch="git://github.com/meta-qt5" />
+
+	<remote name="qt4"
+		fetch="git://git.yoctoproject.org/meta-qt4" />
 
 	<remote name="gnss-sdr"
 		fetch="git://github.com/carlesfernandez" />
 
-	<default remote="openembedded" revision="master"  />
+	<remote name="linux"
+		fetch="git://github.com/analogdevicesinc/linux" />
 
-	<project name="bitbake" path="bitbake" revision="1.36" />
-	<project name="openembedded-core" path="oe-core" revision="3638cb32ba9ba32b4d498fc31ab7fdf82f0d2495" />
-	<project name="meta-openembedded" path="meta-oe" revision="eae996301d9c097bcbeb8046f08041dc82bb62f8"  />
+	<remote name="meta-adi"
+		fetch="git://github.com/analogdevicesinc/meta-adi" />
+
+	<remote name="adi_hdl"
+		fetch="git://github.com/analogdevicesinc/hdl" />
+
+
+	<project name="meta-qt4" remote="qt4" path="meta-qt4" revision="e290738759ef3f39c9e079eaa9b606a62107e5ba"  />
+	<project name="adi_hdl" remote="adi_hdl" path="adi_hdl" revision="9e94990b90d3aedb28aa507fcfc98725c6e0c82d"  />
+	<project name="meta-adi" remote="meta-adi" path="meta-adi" revision="035aa65e89c62efd6e26175c3f00c67b95fd863d"  />
+	<project name="adi_linux" remote="linux" path="adi_linux" revision="4fea7c58ad92283acb90f182821b51d72b6afefa"  />
 	<project name="meta-qt5" remote="qt5" path="meta-qt5" revision="cfe02f26de53e5c20e6f9555059cbaaf5ab9b22f"  />
-	<project name="meta-sdr" remote="balister" path="meta-sdr" revision="4d36bd1f8936411bb7f2c8e0e70b53232271caca" />
-	<project name="meta-ettus" remote="ettus" path="meta-ettus" revision="89f45fc324baec245767e85c0c1c71f1ef3b1c98" />
-	<project name="meta-xilinx" remote="Xilinx" path="meta-xilinx" revision="d6aaa8a9406e1b2b1545c804fd64807543fa6808" />
-	<project name="meta-raspberrypi" remote="yocto" path="meta-raspberrypi" revision="a1cfeb3324c458a73507e34ffcf28c25591b8052" />
-	<project name="meta-ti" remote="yocto" path="meta-ti" revision="a781f18fce87a7efe94f14a94402223be7d511e7" />
-	<project name="meta-odroid" remote="akuster" path="meta-odroid" revision="989f022a77718f2f64cd37ac381a6216ff913117" />
-	<project name="meta-swupdate" remote="sbabic" path="meta-swupdate" revision="0fb115e97187c069f0da90163f1f374a6b7a4af7" />
-	<project name="meta-docker" remote="L4B-Software" path="meta-docker" revision="7c31c6d1bec01086bf91f76aa09a2ffe9794072c" />
-	<project name="meta-gnss-sdr" remote="gnss-sdr" path="meta-gnss-sdr" revision="rocko" />
+	<project name="meta-sdr" remote="balister" path="meta-sdr" revision="7ee0473a50301ac95b8c418dde8e0bbaecb8b9e5" />
+	<project name="meta-gnss-sdr" remote="gnss-sdr" path="meta-gnss-sdr" revision="rocko-petalinux2018.3" />
 
 </manifest>
