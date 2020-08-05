@@ -14,19 +14,22 @@ single *manifest* file.  Tell repo to fetch a manifest from this repository and
 it will fetch the git repositories specified in the manifest and, by doing so,
 setup an OpenEmbedded build environment for you!
 
-
 Setting up the build host
 ---------------
 
-The process described below is based on [OpenEmbedded](http://www.openembedded.org) (a build framework for embedded Linux) and the [Yocto Project](https://www.yoctoproject.org/) (a complete embedded Linux development environment covering several build profiles across multiple architectures including ARM, PPC, MIPS, x86, and x86-64). In order to set up a build host, you will need a machine with a minimum of 50 Gbytes of free disk space and running a supported Linux distribution. In general, if you have the current release minus one of Ubuntu, Fedora, openSUSE, CentOS or Debian you should have no problems. For a more detailed list of distributions that support the Yocto Project, see the [Supported Linux Distributions](https://www.yoctoproject.org/docs/2.1/ref-manual/ref-manual.html#detailed-supported-distros) section in the Yocto Project Reference Manual.
+The process described below is based on [OpenEmbedded](http://www.openembedded.org) (a build framework for embedded Linux) and the [Yocto Project](https://www.yoctoproject.org/) (a complete embedded Linux development environment covering several build profiles across multiple architectures including ARM, PPC, MIPS, x86, and x86-64). In order to set up a build host, you will need a machine with a minimum of **50 Gbytes** of free disk space and running a supported Linux distribution. In general, if you have the current release minus one of Ubuntu, Fedora, openSUSE, CentOS or Debian you should have no problems. For a more detailed list of distributions that support the Yocto Project, see the [Supported Linux Distributions](https://www.yoctoproject.org/docs/3.0/ref-manual/ref-manual.html#detailed-supported-distros) section in the Yocto Project Reference Manual.
 
 ### Tested Environment
 
-Ubuntu 16.04 64 bits in a Virtual Machine
+These instructions have been modified for **Yocto Release 3.0 "Zeus"** on **Ubuntu 20.04 64 bits in a VirtualBox VM**. Older Yocto builds like Thud may have issues with a version mismatch with libc6>=2.30. [A patch is available](https://patchwork.openembedded.org/patch/165581/) if the older versions are required. You could also try compiling on an older version of Ubuntu or downgrade libc6, but these options were not tested.
+
+Install Dependencies:
 
 ```
 $ sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib \
-    build-essential chrpath libsdl1.2-dev xterm
+     build-essential chrpath socat cpio python python3 python3-pip python3-pexpect \
+     xz-utils debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev \
+     pylint3 xterm curl
 ```
 
 Configure Git:
@@ -57,8 +60,7 @@ Getting Started
 
     Create an empty directory to hold your working files.
 
-        $ mkdir oe-repo
-        $ cd oe-repo
+        $ mkdir oe-repo; cd oe-repo
 
     Tell Repo where to find the manifest
 
@@ -94,13 +96,15 @@ Getting Started
     This process downloads several gigabytes of source code and then proceeds to
     do an awful lot of compilation so make sure you have plenty of space (25 GB
     minimum). Go drink some beer.
+    
+    There are additional image options detailed in the **Other Image Options** section of this readme.   
 
         $ bitbake gnss-sdr-dev-image
 
     If everything goes well, you should have a compressed root filesystem
     tarball as well as kernel and bootloader binaries available in your
     *work/deploy* directory.  If you run into problems, the most likely
-    candidate is missing packages.  Check out the [list of required packages for each operating system](https://www.yoctoproject.org/docs/2.2/ref-manual/ref-manual.html#required-packages-for-the-host-development-system).
+    candidate is missing packages.  Check out the [list of required packages for each operating system](https://www.yoctoproject.org/docs/3.0/ref-manual/ref-manual.html#ubuntu-packages).
 
 6.  Build an SDK for cross compiling GNSS-SDR on an x86 machine.
 
@@ -112,6 +116,24 @@ Getting Started
     you copy to the machine you want to cross compile on and run the file.
     It will default to installing the SDK in ```/usr/local```, and you can ask it to
     install anywhere you have write access to.
+
+Copying the Image to an SD Card
+--------------------------------
+
+The SD card should have one small FAT32 partition for boot files and a larger EXT4 partition for the rootfs. The SD card used for test was a SanDisk Ultra 16GB microSD. The FAT32 partition is 1GB and the EXT4 partition is extended to the remaining space.
+
+The necessary image files are in ```/oe-repo/build/tmp-glibc/deploy/images/zedboard-zynq7```. You will need
+
+* boot.bin
+* u-boot.img
+* uImage
+* zynq-zed.dtb
+* uEnv.txt
+* gnss-sdr-dev-image-zedboard-zynq7.tar.gz
+
+All files except uEnv.txt should be a symlink generated with these exact names. If you are unable to copy the symlinks into your SD card, copy the files they point to and rename them appropriately. Make sure uImage does not have the .bin file extension. 
+
+Place all of the files directly in the FAT32 partition, except for the rootfs tarball, which should be extracted into the EXT4 partition.
 
 Using the SDK
 ---------------
@@ -137,9 +159,10 @@ Cross compile GNSS-SDR and install on target:
         $ make
         $ sudo make install DESTDIR=/usr/local/oecore-x86_64/sysroots/armv7ahf-neon-oe-linux-gnueabi/
 
-Build a root filesystem with GNSS-SDR already installed
+Other Image Options
 ---------------
 
+### Build a root filesystem with GNSS-SDR already installed
 In order to obtain a filesystem with GNSS-SDR already installed and ready to be copied to your SD card, you can bit bake the following image:
 
         $ bitbake gnss-sdr-demo-image
@@ -152,8 +175,7 @@ As well, executing ```./tmp-glibc/deploy/sdk/oecore-x86_64-armv7ahf-neon-toolcha
 Such filesystem, as in the case of the ```gnss-sdr-dev-image``` recipe, will have root access without password by default.
 
 
-Building a minimal image with GNSS-SDR installed
----------------
+### Building a minimal image with GNSS-SDR installed
 
 You can save some megabytes and building time by configuring an image with no GUI, no development, no debugging and no profiling tools, but still with GNSS-SDR installed. Edit the "GUI support"  and the "Extra image configuration defaults" sections of your ```./conf/local.conf``` file as:
 
