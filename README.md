@@ -135,6 +135,9 @@ All files except uEnv.txt should be a symlink generated with these exact names. 
 
 Place all of the files directly in the FAT32 partition, except for the rootfs tarball, which should be extracted into the EXT4 partition.
 
+If you are experiencing issues with the fpga load command in u-boot and would like to continue booting the image, remove `run loadfpga &&` from `uenvcmd` in the file `uEnv.txt`.
+
+
 Using the SDK
 ---------------
 
@@ -156,7 +159,13 @@ Cross compile GNSS-SDR:
         $ cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/Toolchains/oe-sdk_cross.cmake -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_FMCOMMS2=ON -DENABLE_UHD=OFF ..
         $ make
 
-Note: Added -DENABLE_FMCOMMS2=ON -DENABLE_UHD=OFF flags to compile the FMCOMMS2/3/4 related libraries instead of UHD.
+Note: Added `-DENABLE_FMCOMMS2=ON -DENABLE_UHD=OFF` flags to compile the FMCOMMS2/3/4 related libraries instead of UHD. This is not necessary to run the [first fix demo](https://gnss-sdr.org/my-first-fix/). 
+
+It is recommended to install GNSS-SDR directly on the image, but the general command to install GNSS-SDR is: 
+
+        $ sudo make install DESTDIR=/usr/local/oecore-x86_64/sysroots/armv7ahf-neon-oe-linux-gnueabi/
+
+
 
 ### Mounting Device using sshfs
 This allows us to mount the rootfs of the ZedBoard over the network, so that we can install directly on the machine. The ZedBoard must be connected to the network over ethernet. You will also need to know the ZedBoard's IP address, which can be found with the command ```ip a```. 
@@ -183,10 +192,17 @@ $ cd ~
 $ mkdir zedboard
 $ sshfs -o allow_root root@192.168.2.2:/ zedboard
 ```
-The command to install GNSS-SDR is: 
+If this command outputs `read: Connection reset by peer` try resetting the host key with `ssh-keygen -f "/home/$USER/.ssh/known_hosts" -R "192.168.2.2"`
 
-        $ sudo make install DESTDIR=/usr/local/oecore-x86_64/sysroots/armv7ahf-neon-oe-linux-gnueabi/
+Install in `gnss-sdr/build/` with this destination directory:
+```
+$ sudo make install DESTDIR=~/zedboard
+```
 
+To unmount:
+```
+$ fusermount -u ~/zedboard
+```
 
 Other Image Options
 ---------------
