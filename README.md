@@ -29,7 +29,7 @@ Install Dependencies:
 $ sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib \
      build-essential chrpath socat cpio python python3 python3-pip python3-pexpect \
      xz-utils debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev \
-     pylint3 xterm curl
+     pylint3 xterm curl python-mako python-six
 ```
 
 Configure Git:
@@ -149,15 +149,44 @@ Running the environment script will set up most of the variables we'll need to c
 
         $ . /usr/local/oecore-x86_64/environment-setup-armv7ahf-neon-oe-linux-gnueabi
 
-Cross compile GNSS-SDR and install on target:
+Cross compile GNSS-SDR:
 
         $ git clone https://github.com/gnss-sdr/gnss-sdr.git
-        $ cd gnss-sdr
-        $ git checkout next
-        $ cd build
-        $ cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/Toolchains/oe-sdk_cross.cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+        $ cd gnss-sdr/build
+        $ cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/Toolchains/oe-sdk_cross.cmake -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_FMCOMMS2=ON -DENABLE_UHD=OFF ..
         $ make
+
+Note: Added -DENABLE_FMCOMMS2=ON -DENABLE_UHD=OFF flags to compile the FMCOMMS2/3/4 related libraries instead of UHD.
+
+### Mounting Device using sshfs
+This allows us to mount the rootfs of the ZedBoard over the network, so that we can install directly on the machine. The ZedBoard must be connected to the network over ethernet. You will also need to know the ZedBoard's IP address, which can be found with the command ```ip a```. 
+
+Install sshfs
+
+```
+$ sudo apt-get install sshfs
+```
+
+Create the fuse usergroup and add the current user to it.
+
+```
+$ sudo groupadd fuse
+$ sudo gpasswd -a $USER fuse
+```
+
+Modify the new fuse group's configuration in /etc/fuse.conf and uncomment or add the line ```user_allow_other```
+
+Create a directory in home where the device's rootfs will be mounted locally.
+
+```
+$ cd ~
+$ mkdir zedboard
+$ sshfs -o allow_root root@192.168.2.2:/ zedboard
+```
+The command to install GNSS-SDR is: 
+
         $ sudo make install DESTDIR=/usr/local/oecore-x86_64/sysroots/armv7ahf-neon-oe-linux-gnueabi/
+
 
 Other Image Options
 ---------------
