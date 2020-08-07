@@ -29,8 +29,9 @@ Install Dependencies:
 $ sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib \
      build-essential chrpath socat cpio python python3 python3-pip python3-pexpect \
      xz-utils debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev \
-     pylint3 xterm curl python-mako python-six
+     pylint3 xterm curl cmake python-six python-mako
 ```
+
 
 Configure Git:
 
@@ -156,10 +157,10 @@ Cross compile GNSS-SDR:
 
         $ git clone https://github.com/gnss-sdr/gnss-sdr.git
         $ cd gnss-sdr/build
-        $ cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/Toolchains/oe-sdk_cross.cmake -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_FMCOMMS2=ON -DENABLE_UHD=OFF ..
+        $ cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/Toolchains/oe-sdk_cross.cmake -DCMAKE_INSTALL_PREFIX=/usr ..
         $ make
 
-Note: Added `-DENABLE_FMCOMMS2=ON -DENABLE_UHD=OFF` flags to compile the FMCOMMS2/3/4 related libraries instead of UHD. This is not necessary to run the [first fix demo](https://gnss-sdr.org/my-first-fix/). 
+Note: Adding `-DENABLE_FMCOMMS2=ON -DENABLE_UHD=OFF` flags will compile the FMCOMMS2/3/4 related libraries instead of UHD. This is not necessary to run the [first fix demo](https://gnss-sdr.org/my-first-fix/). 
 
 It is recommended to install GNSS-SDR directly on the image, but the general command to install GNSS-SDR is: 
 
