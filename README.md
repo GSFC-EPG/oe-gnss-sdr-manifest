@@ -138,6 +138,8 @@ Place all of the files directly in the FAT32 partition, except for the rootfs ta
 
 If you are experiencing issues with the fpga load command in u-boot and would like to continue booting the image, remove `run loadfpga &&` from `uenvcmd` in the file `uEnv.txt`.
 
+The default login is `root` with no password. 
+
 
 Using the SDK
 ---------------
@@ -204,6 +206,10 @@ To unmount:
 ```
 $ fusermount -u ~/zedboard
 ```
+
+My First Fix
+---------------
+The My First Fix tutorial can be found [here](https://gnss-sdr.org/my-first-fix/). 
 
 Other Image Options
 ---------------
